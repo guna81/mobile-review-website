@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Mobile Details</title>
+<link rel="stylesheet" href="{% static 'css/mobile_details.css' %}">
+<script src="{% static 'js/mobile_details.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+<main class="row">
+	<div class="col-md">
+
+		<h2>{{specs.model.name}}</h2>
+		<div class="img-row">
+
+			<div class="img">
+				{% if specs.model.image %}
+				<img src="{{ specs.model.image.url }}">
+				{% endif %}
+			</div>
+
+			<ul class="rate">
+				<li>Rating: {{specs.model.avg_rating}} ★ </li>
+				<li>Varient:
+					<select class="form-control" id="varient" style="color: rgb(0, 102, 255);">
+						{% for varient in varients %}
+						<option value={{varient.price}}>{{varient.ram}} GB RAM, {{varient.storage}} GB Storage</option>
+						{% endfor %}
+					</select>
+				</li>
+				<li>Price: &#8377 <span id="price">{{varients.0.price}}</span></li>
+			</ul>
+
+		</div>
+
+		<h3>Specifications</h3>
+		<ul>
+			<li>Display Size: {{specs.display_size}}-inches</li>
+			<li>Front Camera: {{specs.front_camera}}</li>
+			<li>Rear Camera: {{specs.rear_camera}}</li>
+			<li>Processor: {{specs.processor}}</li>
+			<li>Battery: {{specs.battery}}mAh</li>
+		</ul>
+
+		<form class="compare-form" action="{% url 'mobile_details' specs.model.name %}" method="post">
+			{% csrf_token %}
+			<input type="text" name="mobile2" placeholder="Compare With" autocomplete="off" required>
+			<button>Compare</button>
+		</form>
+
+		{% if not reviewed %}
+		<div class="review">
+			<h3>Review The Mobile</h3>
+			<form id="review-form" class="">
+				{% csrf_token %}
+				<fieldset class="rate-area">
+					<input type="radio" id="5-star" name="rating" value="5">
+					<label for="5-star" title="Amazing">5 stars</label>
+					<input type="radio" id="4-star" name="rating" value="4">
+					<label for="4-star" title="Good">4 stars</label>
+					<input type="radio" id="3-star" name="rating" value="3">
+					<label for="3-star" title="Average">3 stars</label>
+					<input type="radio" id="2-star" name="rating" value="2">
+					<label for="2-star" title="Not Good">2 stars</label>
+					<input type="radio" id="1-star" required="" name="rating" value="1" aria-required="true">
+					<label for="1-star" title="Bad">1 star</label>
+				</fieldset><br>
+				<input class="review-txt" type="text" name="review" placeholder="write your review" autocomplete="off"
+					required>
+				<button>Submit</button>
+			</form>
+
+		</div>
+		{% endif %}
+
+		<div class="reviewed">
+			<h3>User Reviews</h3>
+			{% for review in reviews %}
+			<table class="user-review">
+				<tr>
+					<th>{{review.user}} : </th>
+					<td>Rating: {{review.rating}} ★ |</td>
+					<td>Review: {{review.review}}</td>
+				</tr>
+			</table>
+			{% endfor %}
+
+			{% if not reviews %}
+			<div class="user-review">No Reviews</div>
+			{% endif %}
+		</div>
+
+	</div>
+
+	<!-- Compare list -->
+	{% if not models %}
+	<div class="col-md" id="no-compare">
+		<span>0 result, search mobiles to compare</span>
+	</div>
+	{% else %}
+	<div class="col-md">
+		{% for mobile in models %}
+		<a title="Click to Compare" class="compare-list" href="{% url 'compare_mobile' specs.model.name mobile.name %}">
+			<div class="c-img">
+				<img src="{{mobile.image.url}}">
+			</div>
+			<ul class="">
+				<li class="model-name">{{mobile.name}}
+				<li>
+				<li>Rating: {{mobile.avg_rating}}★</li>
+			</ul>
+		</a>
+		{% endfor %}
+	</div>
+	{% endif %}
+</main>
+
+<script>
+	//Send ajax request
+	$("#review-form").submit(function () {
+		if ("{{user}}" == "AnonymousUser") {
+			openloginForm()
+			return false
+		};
+		var ratingInput = $('input[name="rating"]:checked').val().trim();
+		var reviewInput = $('input[name="review"]').val().trim();
+		if (ratingInput && reviewInput) {
+			// Create Ajax Call
+			$.ajax({
+				url: '{% url "write_review" specs.model.name %}',
+				type: "POST",
+				data: {
+					'rating': ratingInput,
+					'review': reviewInput,
+				},
+				dataType: 'json',
+				success: function (data) {
+					if (data.success == true) {
+						location.reload();
+					}
+				}
+			});
+		} else {
+			alert("All fields must have a valid value.");
+		}
+		$('#review-form').trigger("reset");
+		return false;
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Mobile Comparision</title>
+    <link rel="stylesheet" href="{% static 'css/compare_mobile.css' %}">
+    <script src="{% static 'js/mobile_details.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+    <main>
+      <table>
+
+        <thead>
+          <tr> <th></th> <td><img src="{{specs1.model.image.url}}" alt="{{specs1.model.name}}"></td> <td><img src="{{specs2.model.image.url}}" alt="{{specs2.model.name}}"></td> </tr>
+          <tr> <th>Model Name</th> <th>{{specs1.model.name}}</th> <th>{{specs2.model.name}}</th> </tr>
+        </thead>
+
+        <tbody>
+          <tr> <th>Rating</th> <td>{{specs1.model.avg_rating}}★</td> <td>{{specs2.model.avg_rating}}★</td> </tr>
+          <tr> <th>Brand</th> <td>{{specs1.model.brand}}</td> <td>{{specs2.model.brand}}</td> </tr>
+          <tr> <th>Display Size</th> <td>{{specs1.display_size}}</td> <td>{{specs2.display_size}}</td> </tr>
+          <tr> <th>Rear Camera</th> <td>{{specs1.rear_camera}}</td> <td>{{specs2.rear_camera}}</td> </tr>
+          <tr> <th>Front Camera</th> <td>{{specs1.front_camera}}</td> <td>{{specs2.front_camera}}</td> </tr>
+          <tr> <th>Processor</th> <td>{{specs1.processor}}</td> <td>{{specs2.processor}}</td> </tr>
+          <tr> <th>Battery</th> <td>{{specs1.battery}}mAh</td> <td>{{specs2.battery}}mAh</td> </tr>
+          <tr> <th>Varient</th> <td><select name="" id="varient">
+            {% for varient in varients1 %}
+              <option value={{varient.price}}>{{varient.ram}} GB RAM, {{varient.storage}} GB Storage</option>
+            {% endfor %}
+          </select></td> <td><select name="" id="varient2">
+            {% for varient in varients2 %}
+              <option value={{varient.price}}>{{varient.ram}} GB RAM, {{varient.storage}} GB Storage</option>
+            {% endfor %}
+          </select></td> </tr>
+          <tr><th>Price</th><td>&#8377 <span id="price">{{varients1.0.price}}</span></td><td>&#8377<span id="price2">{{varients2.0.price}}</span></td></tr>
+        </tbody>
+
+      </table>
+    </main>
+{% endblock %}

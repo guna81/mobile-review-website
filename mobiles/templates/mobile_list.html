@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Mobiles</title>
+<link rel="stylesheet" href="{% static 'css/mobile_list.css' %}">
+{% endblock %}
+
+{% block main %}
+<main>
+    {% if models %}
+    {% for model in models %}
+    <a class="mobile" href="{% url 'mobile_details' model.model.name %}">
+        <img class="img" src="{{model.model.image.url}}">
+        <ul class="">
+            <li><b>{{model.model.name}}</b></li>
+            <li>Brand: {{model.model.brand}}</li>
+            <li>Rating: {{model.model.avg_rating}}</li>
+        </ul>
+        <ul class="">
+            <li>Display Size: {{model.display_size}}</li>
+            <li>Processor: {{model.processor}}</li>
+            <li>Battery: {{model.battery}}</li>
+        </ul>
+    </a>
+    {% endfor %}
+    {% else %}
+    <div id="no-results">
+        <span>No Results found</span>
+    </div>
+    {% endif %}
+</main>
+
+{% endblock %}

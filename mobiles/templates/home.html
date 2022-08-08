@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<title>Home</title>
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block main %}
+<main>
+	<div class="row">
+
+		<div class="col-md">
+			<h3>Popular Mobiles</h3>
+			<div>
+				{% for mobile in p_mobiles %}
+				<a class="card" href="{% url 'mobile_details' mobile.model.name %}">
+					<img class="img" src="{{mobile.model.image.url}}">
+
+					<p class="title">{{mobile.model.name}}</p>
+
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="col-md">
+			<h3>Recently Viewed Mobiles</h3>
+			<div>
+				{% for mobile in r_mobiles %}
+				<a class="card" href="{% url 'mobile_details' mobile.model.name %}">
+					<img class="img" src="{{mobile.model.image.url}}">
+
+					<p class="title">{{mobile.model.name}}</p>
+
+				</a>
+				{% endfor %}
+
+				{% if not r_mobiles %}
+				<div>No Recently Viewed Mobiles</div>
+				{% endif %}
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row">
+
+		<div class="col-md">
+			<h3>Popular Mobile Comparisions</h3>
+			<div>
+
+				{% for mobile in p_compare %}
+				<a class="compare-li" href="{% url 'compare_mobile' mobile.mobile1.name mobile.mobile2.name %}">
+					<div class="compare-item">
+						<img src="{{mobile.mobile1.image.url}}">
+						<p class="title">{{mobile.mobile1.name}}</p>
+					</div>
+					<span>vs</span>
+					<div class="col compare-item">
+						<img src="{{ mobile.mobile2.image.url }}">
+						<p class="title">{{mobile.mobile2.name}}</p>
+					</div>
+				</a>
+				{% endfor %}
+
+			</div>
+		</div>
+
+		<div class="col-md">
+
+			<h3>Recently Compared Mobiles</h3>
+
+			<div>
+				{% for mobile in r_compare %}
+				<a class="compare-li" href="{% url 'compare_mobile' mobile.mobile1.name mobile.mobile2.name %}">
+					<div class="compare-item">
+						<img src="{{mobile.mobile1.image.url}}">
+						<p class="title">{{mobile.mobile1.name}}</p>
+					</div>
+					<p id="vs">Vs</p>
+					<div class="compare-item">
+						<img src="{{ mobile.mobile2.image.url }}">
+						<p class="title">{{mobile.mobile2.name}}</p>
+					</div>
+				</a>
+				{% endfor %}
+				{% if not r_compare %}
+				<div>No Recently Compared Mobiles</div>
+				{% endif %}
+			</div>
+		</div>
+
+	</div>
+
+</main>
+
+{% endblock %}

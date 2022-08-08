@@ -1,0 +1,84 @@
+/* common */
+
+.col-md a {
+  text-decoration: none;
+  color: rgb(21, 21, 22);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.col-md {
+  margin: 10px;
+  flex: 1;
+
+}
+
+.col-md>div {
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+/*mobile card*/
+.card {
+  margin: 5px;
+  width: 120px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 4px 4px 4px 4px rgb(221, 219, 219);
+  transition: 0.4s;
+  border-radius: 5px;
+
+}
+
+.card:hover {
+  box-shadow: 4px 4px 4px 4px rgb(143, 142, 142);
+}
+
+.card>.img {
+  max-width: 60px;
+  max-height: 150px;
+}
+
+.card>.title,
+.compare-item>p {
+  text-align: center;
+}
+
+/*end*/
+.compare-li {
+  box-shadow: 4px 4px 4px 4px rgb(221, 219, 219);
+  transition: 0.4s;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.compare-li:hover {
+  box-shadow: 4px 4px 4px 4px rgb(143, 142, 142);
+}
+
+.compare-item {
+  margin: 5px;
+  width: 120px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.compare-item>img {
+  max-width: 60px;
+  max-height: 150px;
+}

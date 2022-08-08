@@ -1,0 +1,336 @@
+/* common styles */
+body {
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* header styles */
+header {
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  background-color: rgb(57, 117, 235);
+  color: whitesmoke;
+  font-size: large;
+  text-shadow: 1px 1px gray;
+}
+
+header>h1 {
+  margin: 10px;
+}
+
+/* button and search form */
+button {
+  border-radius: 5px;
+  transition: 0.4s;
+  font-size: 18px;
+}
+
+button:hover {
+  color: white;
+}
+
+input[type="text"] {
+  border-radius: 5px;
+}
+
+header button,
+.sidenav .lopen-button,
+.sidenav .ropen-button {
+  margin: 5px;
+  padding: 8px 20px;
+  background-color: rgb(226, 219, 233);
+  border: 2px solid rgb(170, 13, 243);
+}
+
+header .lopen-button {
+  float: right;
+  position: relative;
+  bottom: 50px;
+
+}
+
+.lopen-button:hover {
+  background-color: rgb(170, 13, 243);
+}
+
+header .ropen-button {
+  float: right;
+  position: relative;
+  bottom: 50px;
+
+}
+
+.ropen-button:hover {
+  background-color: rgb(170, 13, 243);
+}
+
+header #logout {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  border: 2px solid rgb(230, 45, 45);
+}
+
+#logout:hover {
+  background-color: rgb(230, 45, 45);
+}
+
+.search-btn {
+  padding: 8px 20px;
+  background-color: rgb(226, 219, 233);
+  border: 2px solid rgb(50, 226, 50);
+}
+
+.search-btn:hover {
+  background-color: rgb(50, 226, 50);
+}
+
+.search {
+  padding: 10px;
+  height: 20px;
+  width: 200px;
+  outline: none;
+  border: 2px solid rgb(216, 212, 212);
+}
+
+.search:focus {
+  border: 2px solid rgb(57, 117, 235);
+}
+
+/* form popup styles*/
+.form-group {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: none;
+}
+
+.form-popup {
+  padding: 20px;
+  position: absolute;
+  background-color: rgb(57, 117, 235);
+  border-radius: 5px;
+  border: 2px solid #797676;
+  display: none;
+  z-index: 1;
+}
+
+.form-popup>form>* {
+  margin: 10px;
+}
+
+.form-popup h2 {
+  margin: 0;
+  text-align: center;
+}
+
+.form-popup input {
+  width: 250px;
+  height: 25px;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+  border: 2px solid rgb(109, 109, 109);
+}
+
+.form-popup input:focus {
+  border: 2px solid rgb(170, 13, 243);
+}
+
+.form-popup button {
+  padding: 8px 20px;
+  background-color: rgb(226, 219, 233);
+  border: 2px solid rgb(170, 13, 243);
+}
+
+.form-popup button:hover {
+  background-color: rgb(170, 13, 243);
+}
+
+.visible {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.cancel-btn {
+  font-size: 30px;
+  color: red;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  text-decoration: none;
+}
+
+.notify {
+  padding: 10px;
+  color: rgb(185, 22, 22);
+  font-size: large;
+}
+
+/* top nav styles*/
+.topnav {
+  margin: 0;
+  background-color: rgb(41, 40, 40);
+}
+
+.topnav>* {
+  margin: 0;
+  padding: 15px 20px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #7e747436;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.topnav .form-inline {
+  display: inline-block;
+  position: absolute;
+  right: 20px;
+  margin-top: -10px;
+}
+
+.nav-link {
+  font-weight: bold;
+  color: #bdb5b5;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #ece2e2;
+}
+
+/* side nav */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  color: whitesmoke;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  font-size: large;
+}
+
+.sidenav>* {
+  padding-left: 40px;
+  padding-top: 20px;
+}
+
+.sidenav h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.sidenav a {
+  padding: 8px;
+  text-decoration: none;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav>a {
+  padding-left: 40px;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  font-size: 36px;
+  margin-left: 30px;
+}
+
+.user-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.sidenav #logout {
+  padding: 8px 20px;
+  border: 2px solid rgb(230, 45, 45);
+}
+
+.sidenav .sideform {
+  margin: 20px;
+}
+
+.sideform * {
+  margin: 4px;
+}
+
+/* responsive nav */
+.topnav span,
+.sidenav {
+  display: none;
+}
+
+.topnav span {
+  margin-left: 40px;
+  padding: 6px 0;
+}
+
+@media screen and (max-width: 750px) {
+
+  header .lopen-button,
+  header .ropen-button,
+  header #logout,
+  .topnav>a,
+  .topnav>div,
+  .topnav .form-inline {
+    display: none;
+  }
+
+  .sidenav {
+    display: block;
+  }
+
+  .topnav>span {
+    display: inline-block;
+  }
+}
+
+/* other */
+main {
+  margin: 10px;
+  font-size: 18px;
+}

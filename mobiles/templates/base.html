@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="{% static 'css/base.css' %}" />
+	<script src="{% static 'js/base.js' %}"></script>
+	<script src="{% static 'js/csrf.js' %}"></script>
+
+	{% block head %} {% endblock %}
+</head>
+
+<body>
+	<!-- HEADER -->
+	<header>
+		<h1>Mobile Reviews</h1>
+
+		{% if user|slugify == "anonymoususer" %}
+		<button class="ropen-button btn" onclick="opensignupForm()">SignUp</button>
+		<button class="lopen-button btn" onclick="openloginForm()">Login</button>
+
+		{% else %}
+		<a><button id="logout" class="">Logout</button></a>
+		<p id="firstname">Welcome, {{user.first_name}}</p>
+		{% endif %}
+	</header>
+
+	<!-- NAVIGATION -->
+	<nav id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn nav-link" onclick="closeNav()">&times;</a>
+		<div class="user-btn">
+			{% if user|slugify == "anonymoususer" %}
+
+			<button class="lopen-button" onclick="openloginForm()">Login</button>
+			<button class="ropen-button" onclick="opensignupForm()">SignUp</button>
+
+			{% else %}
+			<a><button id="logout" class="">Logout</button></a>
+			{% endif %}
+		</div>
+		<form class="sideform" action="{% url 'mobile_list' 'search' %}" method="post">
+			{% csrf_token %}
+			<input class="search" type="text" placeholder="Search" name="mobile" autocomplete="off" />
+			<button class="search-btn" type="submit">Search</button>
+		</form>
+		<a class="nav-link" href="{% url 'home' %}">HOME</a>
+		<h3>LATEST</h3>
+		<div>
+			{% for model in latest %}
+			<a class="nav-link" href="{% url 'mobile_details' model.model.name %}">{{model.model.name}}</a>
+			{% endfor %}
+		</div>
+
+		<h3>BRANDS</h3>
+		<div>
+			{% for brand in brands %}
+			<a class="nav-link" href="{% url 'mobile_list' brand.name %}">{{brand.name}}</a>
+			{% endfor %}
+		</div>
+
+	</nav>
+
+	<nav class="topnav" id="myTopnav">
+		<a class="nav-link" href="{% url 'home' %}">HOME</a>
+
+		<div class="dropdown">
+			<a class="nav-link dropbtn">LATEST</a>
+			<div class="dropdown-content">
+				{% for model in latest %}
+				<a href="{% url 'mobile_details' model.model.name %}">{{model.model.name}}</a>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="dropdown">
+			<a class="nav-link dropbtn">BRANDS</a>
+			<div class="dropdown-content">
+				{% for brand in brands %}
+				<a href="{% url 'mobile_list' brand.name %}">{{brand.name}}</a>
+				{% endfor %}
+			</div>
+		</div>
+
+		<form class="form-inline" action="{% url 'mobile_list' 'search' %}" method="post">
+			{% csrf_token %}
+			<input class="search" type="text" placeholder="Search" name="mobile" autocomplete="off" />
+			<button class="search-btn" type="submit">Search</button>
+		</form>
+
+		<span class="nav-link" style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>
+	</nav>
+
+	<!-- POPUP FORMS -->
+	<div id="form-visible" class="form-group">
+
+		<div id="login-form" class="form-popup">
+			<h2>Login</h2>
+			<div class="notify" id="message"></div>
+			<form id="login-submit" class="form-container">
+				{% csrf_token %}
+				<br />
+				<input class="form-control" type="text" placeholder="User Name" name="username" autocomplete="off"
+					required />
+				<br />
+				<input class="form-control" type="password" placeholder="Enter Password" name="password" required />
+				<br />
+				<button class="form-control btn btn-success" type="submit">
+					Login
+				</button>
+				<a class="cancel-btn" href="" onclick="closeloginForm()"><b>&times;</b></a>
+
+			</form>
+		</div>
+
+		<div id="signup-form" class="form-popup">
+			<h2>Sign Up</h2>
+			<div class="notify" id="signup-message"></div>
+			<form id="signup-submit" class="form-container">
+				{% csrf_token %}
+				<input class="form-control" type="text" placeholder="First Name" name="firstname" autocomplete="off"
+					required />
+				<br />
+				<input class="form-control" type="text" placeholder="Last Name" name="lastname" autocomplete="off"
+					required />
+				<br />
+				<input class="form-control" type="text" placeholder="User Name" name="user" minlength="4"
+					autocomplete="off" required />
+				<br />
+				<input class="form-control" type="email" placeholder="Email Address" name="email" autocomplete="off"
+					required />
+				<br />
+				<input class="form-control" type="password" placeholder="Enter Password" minlength="6" name="pwd"
+					required />
+				<br />
+				<input class="form-control" type="password" placeholder="Confirm Password" minlength="6" name="pwd2"
+					required />
+				<br />
+				<button class="" type="submit">
+					Sign Up
+				</button>
+				<a class="cancel-btn" href="" onclick="closeloginForm()"><b>&times;</b></a>
+			</form>
+		</div>
+	</div>
+	{% block main %}
+	{% endblock %}
+
+	<footer></footer>
+</body>
+
+<script>
+	$("#login-submit").submit(function () {
+		var username = $('input[name="username"]').val().trim();
+		var password = $('input[name="password"]').val().trim();
+		if (username && password) {
+			// Create Ajax Call
+			$.ajax({
+				url: '{% url "login" %}',
+				type: "POST",
+				data: {
+					username: username,
+					password: password,
+				},
+				dataType: "json",
+				success: function (data) {
+					if (data.success == true) {
+						location.reload();
+					} else {
+						document.querySelector("#message").innerHTML = data.msg;
+					}
+				},
+			});
+		} else {
+			alert("All fields must have a valid value.");
+		}
+		return false;
+	});
+
+	$("#signup-submit").submit(function () {
+		var firstname = $('input[name="firstname"]').val().trim();
+		var lastname = $('input[name="lastname"]').val().trim();
+		var username = $('input[name="user"]').val().trim();
+		var email = $('input[name="email"]').val().trim();
+		var password = $('input[name="pwd"]').val().trim();
+		var password2 = $('input[name="pwd2"]').val().trim();
+
+		if (firstname + lastname + username + email + password + password2) {
+			$.ajax({
+				url: '{% url "signup" %}',
+				type: "POST",
+				data: {
+					firstname: firstname,
+					lastname: lastname,
+					username: username,
+					email: email,
+					password: password,
+					password2: password2,
+				},
+				dataType: "json",
+				success: function (data) {
+					if (data.success == true) {
+						openloginForm();
+						document.querySelector("#message").innerHTML = data.msg;
+					} else {
+						document.querySelector("#signup-message").innerHTML = data.msg;
+					}
+				},
+			});
+		} else {
+			alert("All fields must have a valid value.");
+		} //$('#signup-submit').trigger("reset");
+		return false;
+	});
+
+	$("#logout").click(function () {
+		$.ajax({
+			url: '{% url "logout" %}',
+
+			success: function (data) {
+				location.reload();
+			},
+		});
+	});
+</script>
+
+</html>
